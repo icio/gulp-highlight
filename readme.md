@@ -1,17 +1,25 @@
-# gulp-plugin-boilerplate
+# [gulp](http://gulpjs.com)-highlight [![Build Status](https://secure.travis-ci.org/johannestroeger/gulp-highlight.png?branch=master)](http://travis-ci.org/johannestroeger/gulp-highlight)
 
-> Boilerplate to kickstart creating [gulp](http://gulpjs.com) plugins
+## Install
 
-Contains all the current best-practices.
+```
+npm install --save-dev gulp-highlight
+```
 
 
-## Getting started
+## Example
 
-Use the [Yeoman generator](https://github.com/sindresorhus/generator-gulp-plugin-boilerplate).
+```js
+var gulp = require('gulp');
+var highlight = require('gulp-highlight');
 
-You can also just download or clone this repo, but remember to rename `_readme.md` to `readme.md` and `_package.json` to `package.json`.
-
+gulp.task('default', function () {
+	gulp.src('src/app.html')
+		.pipe(highlight())
+		.pipe(gulp.dest('dist'));
+});
+```
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Johannes Troeger](https://github.com/johannestroger)
