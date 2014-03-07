@@ -10,7 +10,7 @@ module.exports = function (options) {
     $('code').each(function (index, code) {
       $(code).html(hljs.highlightAuto($(code).text()).value);
     });
-    return $.html();
+    return $.html() || str;
   };
   return through.obj(function (file, enc, cb) {
     if (file.isNull()) {
