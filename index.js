@@ -7,8 +7,10 @@ var hljs = require('highlight.js');
 module.exports = function (options) {
   var highlight = function (str) {
     var $ = cheerio.load(str);
-    var highlighted = hljs.highlightAuto($('code').text()).value;
-    return ['<code>', highlighted, '</code>'].join('');
+    $('code').each(function (index, code) {
+      $(code).html(hljs.highlightAuto($(code).text()).value);
+    });
+    return $.html();
   };
   return through.obj(function (file, enc, cb) {
     if (file.isNull()) {
