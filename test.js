@@ -3,7 +3,7 @@ var assert = require('assert');
 var gutil = require('gulp-util');
 var highlight = require('./index');
 
-it('should ', function (cb) {
+it('should highlight', function (cb) {
   var stream = highlight();
 
   stream.on('data', function (file) {
@@ -17,6 +17,25 @@ it('should ', function (cb) {
     base: __dirname,
     path: 'file.ext',
     contents: new Buffer('<code>* { box-sizing: border-box }</code>')
+  }));
+
+  stream.end();
+});
+
+it('should not highlight', function (cb) {
+  var stream = highlight();
+
+  stream.on('data', function (file) {
+    assert.equal(file.relative, 'file.ext');
+    assert.equal(file.contents.toString(), '<code class="nohighlight">* { box-sizing: border-box }</code>');
+  });
+
+  stream.on('end', cb);
+
+  stream.write(new gutil.File({
+    base: __dirname,
+    path: 'file.ext',
+    contents: new Buffer('<code class="nohighlight">* { box-sizing: border-box }</code>')
   }));
 
   stream.end();

@@ -8,7 +8,9 @@ module.exports = function (options) {
   var highlight = function (str) {
     var $ = cheerio.load(str);
     $('code').each(function (index, code) {
-      $(code).html(hljs.highlightAuto($(code).text()).value);
+      if (!$(code).hasClass('nohighlight')) {
+        $(code).html(hljs.highlightAuto($(code).text()).value);
+      }
     });
     return $.html() || str;
   };
