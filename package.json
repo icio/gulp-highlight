@@ -23,10 +23,10 @@
     "gulpplugin highlightjs code syntax"
   ],
   "dependencies": {
-    "gulp-util": "~2.2.14",
-    "through2": "~0.4.1",
-    "highlight.js": "~8.0.0",
-    "cheerio": "~0.13.1"
+    "gulp-util": "~3.0.4",
+    "through2": "~0.6.3",
+    "highlight.js": "~8.4.0",
+    "cheerio": "~0.18.0"
   },
   "devDependencies": {
     "mocha": "*"
