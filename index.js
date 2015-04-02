@@ -9,7 +9,7 @@ module.exports = function (options) {
     var $ = cheerio.load(str);
     $('code').each(function (index, code) {
       if (!$(code).hasClass('nohighlight')) {
-        $(code).html(hljs.highlightAuto($(code).text()).value);
+        $(code).html(hljs.highlightAuto($(code).html()).value);
       }
     });
     return $.html() || str;
