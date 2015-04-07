@@ -40,3 +40,22 @@ it('should not highlight', function (cb) {
 
   stream.end();
 });
+
+it('should highlight html', function (cb) {
+  var stream = highlight();
+
+  stream.on('data', function (file) {
+    assert.equal(file.relative, 'file.ext');
+    assert.equal(file.contents.toString(), '<code>&lt;<span class="hljs-keyword">div</span>&gt;html&lt;/<span class="hljs-keyword">div</span>&gt;</code>');
+  });
+
+  stream.on('end', cb);
+
+  stream.write(new gutil.File({
+    base: __dirname,
+    path: 'file.ext',
+    contents: new Buffer('<code><div>html</div></code>')
+  }));
+
+  stream.end();
+})
