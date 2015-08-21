@@ -6,7 +6,7 @@ var hljs = require('highlight.js');
 
 module.exports = function (options) {
   var highlight = function (str) {
-    var $ = cheerio.load(str);
+    var $ = cheerio.load(str, {decodeEntities: false});
     $('code').each(function (index, code) {
       if (!$(code).hasClass('nohighlight')) {
         $(code).html(hljs.highlightAuto($(code).html()).value);

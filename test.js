@@ -58,4 +58,23 @@ it('should highlight html', function (cb) {
   }));
 
   stream.end();
-})
+});
+
+it('should not HTML encode quotations', function (cb) {
+  var stream = highlight();
+
+  stream.on('data', function (file) {
+    assert.equal(file.relative, 'file.ext');
+    assert.equal(file.contents.toString(), '<code class="json"><span class="hljs-string">"dependencies"</span>: { <span class="hljs-string">"gulp-highlight"</span>: <span class="hljs-string">"^1.0.0"</span> }</code>');
+  });
+
+  stream.on('end', cb);
+
+  stream.write(new gutil.File({
+    base: __dirname,
+    path: 'file.ext',
+    contents: new Buffer('<code class="json">"dependencies": { "gulp-highlight": "^1.0.0" }</code>')
+  }));
+
+  stream.end();
+});
