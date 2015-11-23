@@ -3,7 +3,7 @@ var gutil = require('gulp-util');
 var through = require('through2');
 var cheerio = require('cheerio');
 var hljs = require('highlight.js');
-var _ = require('lodash');
+var assign = require('lodash.assign');
 
 var DEFAULTS = {
   cheerio: {
@@ -12,7 +12,7 @@ var DEFAULTS = {
 };
 
 module.exports = function (options) {
-  var options = _.assign(DEFAULTS, options);
+  var options = assign(DEFAULTS, options);
   var highlight = function (str, options) {
     var $ = cheerio.load(str, options.cheerio);
     $('code').each(function (index, code) {
