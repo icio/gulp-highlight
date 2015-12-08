@@ -30,6 +30,7 @@
     "through2": "~0.6.3"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
     "mocha": "*"
   }
 }
