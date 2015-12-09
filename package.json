@@ -25,12 +25,11 @@
   "dependencies": {
     "cheerio": "~0.19.0",
     "gulp-util": "~3.0.4",
-    "highlight.js": "~9.0.0",
+    "highlight.js": "^9.0.0",
     "lodash.assign": "^3.2.0",
     "through2": "~0.6.3"
   },
   "devDependencies": {
-    "chai": "^3.4.1",
     "mocha": "*"
   }
 }
