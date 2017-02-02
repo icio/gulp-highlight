@@ -6,18 +6,22 @@ var hljs = require('highlight.js');
 var assign = require('lodash.assign');
 
 var DEFAULTS = {
+  selector: 'code',
+  ignoreClass: 'nohighlight',
   cheerio: {
     decodeEntities: false
   }
 };
 
 module.exports = function (options) {
-  var options = assign(DEFAULTS, options);
+  var options = assign({}, DEFAULTS, options);
   var highlight = function (str, options) {
     var $ = cheerio.load(str, options.cheerio);
-    $('code').each(function (index, code) {
-      if (!$(code).hasClass('nohighlight')) {
-        $(code).html(hljs.highlightAuto($(code).html()).value);
+    $(options.selector).each(function (index, code) {
+      var elem = $(code);
+      if (!elem.hasClass(options.ignoreClass)) {
+        elem.html(hljs.highlightAuto(elem.html()).value);
+        elem.addClass('hljs');
       }
     });
     return $.html() || str;
