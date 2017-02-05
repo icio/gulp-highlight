@@ -41,7 +41,7 @@ it('should not highlight', function(cb) {
   stream.end();
 });
 
-it('should highlight html', function(cb) {
+it('should highlight decoded html', function(cb) {
   var stream = highlight();
 
   stream.on('data', function(file) {
@@ -55,6 +55,29 @@ it('should highlight html', function(cb) {
     base: __dirname,
     path: 'file.ext',
     contents: new Buffer('<code><div>html</div></code>')
+  }));
+
+  stream.end();
+});
+
+it('should highlight encoded html', function(cb) {
+  var stream = highlight({
+    cheerio: {
+      decodeEntities: true
+    }
+  });
+
+  stream.on('data', function(file) {
+    assert.equal(file.relative, 'file.ext');
+    assert.equal(file.contents.toString(), '<code class="hljs">&lt;<span class="hljs-keyword">div</span>&gt;html&lt;/<span class="hljs-keyword">div</span>&gt;</code>');
+  });
+
+  stream.on('end', cb);
+
+  stream.write(new gutil.File({
+    base: __dirname,
+    path: 'file.ext',
+    contents: new Buffer('<code>&lt;div&gt;html&lt;/div&gt;</code>')
   }));
 
   stream.end();

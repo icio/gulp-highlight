@@ -17,13 +17,15 @@ module.exports = function (options) {
   var options = assign({}, DEFAULTS, options);
   var highlight = function (str, options) {
     var $ = cheerio.load(str, options.cheerio);
+
     $(options.selector).each(function (index, code) {
       var elem = $(code);
       if (!elem.hasClass(options.ignoreClass)) {
-        elem.html(hljs.highlightAuto(elem.html()).value);
-        elem.addClass('hljs');
+        var text = options.cheerio.decodeEntities ? elem.text() : elem.html();
+        elem.html(hljs.highlightAuto(text).value).addClass('hljs');
       }
     });
+
     return $.html() || str;
   };
   return through.obj(function (file, enc, cb) {
