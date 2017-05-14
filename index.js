@@ -19,10 +19,17 @@ module.exports = function (options) {
     var $ = cheerio.load(str, options.cheerio);
     $(options.selector).each(function (index, code) {
       var elem = $(code);
-      if (!elem.hasClass(options.ignoreClass)) {
-        elem.html(hljs.highlightAuto(elem.html()).value);
-        elem.addClass('hljs');
+      if (elem.hasClass(options.ignoreClass)) {
+        return;
       }
+
+      var lang = detectLang(elem, options.languageClassPrefix);
+      elem.html(
+        lang
+          ? hljs.highlight(lang, elem.text()).value
+          : hljs.highlightAuto(elem.text()).value
+      );
+      elem.addClass('hljs');
     });
     return $.html() || str;
   };
@@ -47,3 +54,20 @@ module.exports = function (options) {
     cb();
   });
 };
+
+function detectLang(elem, langClassPrefix) {
+  if (!langClassPrefix) langClassPrefix = '';
+
+  var classes = (elem.attr('class') || '').split(' ');
+  for (var c = 0; c < classes.length; c++) {
+    var clas = classes[c];
+    if (!clas || !clas.startsWith(langClassPrefix)) {
+      continue;
+    }
+
+    var lang = clas.substr(langClassPrefix.length);
+    if (hljs.getLanguage(lang)) {
+      return lang;
+    }
+  }
+}
